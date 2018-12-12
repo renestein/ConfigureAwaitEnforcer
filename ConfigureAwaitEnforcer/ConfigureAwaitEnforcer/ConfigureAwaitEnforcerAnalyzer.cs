@@ -28,12 +28,13 @@ namespace ConfigureAwaitEnforcer
         typeof(Resources));
 
     private const string Category = "ConfigureAwait";
+    protected internal const string CONFIGUREAWAIT_METHOD_NAME = "ConfigureAwait";
 
     private static readonly DiagnosticDescriptor RULE = new DiagnosticDescriptor(DiagnosticId,
       Title,
       MessageFormat,
       Category,
-      DiagnosticSeverity.Warning,
+      DiagnosticSeverity.Error,
       isEnabledByDefault: true,
       description: Description);
 
@@ -47,13 +48,13 @@ namespace ConfigureAwaitEnforcer
 
     private static void AnalyzeSymbol(SyntaxNodeAnalysisContext context)
     {
-      const string CONFIGURE_AWAIT_METHOD_NAME = nameof(Task.ConfigureAwait);
       var currentAwait = (AwaitExpressionSyntax)context.Node;
 
       var hasConfigureAwait = currentAwait
         .DescendantTokens()
-        .Any(token => token.Value.ToString().Equals(CONFIGURE_AWAIT_METHOD_NAME,
-          StringComparison.Ordinal));
+        .Any(token => token.Value != null &&
+                      token.Value.ToString().Equals(CONFIGUREAWAIT_METHOD_NAME,
+                                                    StringComparison.Ordinal));
 
       if (!hasConfigureAwait)
       {
