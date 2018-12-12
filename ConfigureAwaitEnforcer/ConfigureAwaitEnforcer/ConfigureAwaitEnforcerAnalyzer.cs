@@ -75,12 +75,9 @@ namespace ConfigureAwaitEnforcer
     private static bool canUseConfigureAwaitMethod(AwaitExpressionInfo awaitExpression)
     {
       var containingTypeName  = awaitExpression.GetResultMethod?.ContainingType?.Name;
-      if (containingTypeName != null)
-      {
-        return containingTypeName.StartsWith(nameof(TaskAwaiter),
-          StringComparison.OrdinalIgnoreCase);
-      }
-      return false;
+      return containingTypeName?.StartsWith(nameof(TaskAwaiter),
+          StringComparison.OrdinalIgnoreCase) ?? false;
+     
     }
   }
 }
