@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="ConfigureAwaitEnforcer.4dda871a-f977-423f-90a4-badd0af7c1d1" Version="1.0" Language="en-US" Publisher="rene"/>
+    <Identity Id="ConfigureAwaitEnforcer.ee60c694-4176-4482-a91e-e7e68238baed" Version="1.0" Language="en-US" Publisher="rene"/>
     <DisplayName>ConfigureAwaitEnforcer</DisplayName>
     <Description xml:space="preserve">This is a sample diagnostic extension for the .NET Compiler Platform ("Roslyn").</Description>
   </Metadata>

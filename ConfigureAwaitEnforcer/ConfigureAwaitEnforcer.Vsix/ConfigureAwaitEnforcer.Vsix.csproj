@@ -16,7 +16,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{5C586ECE-9D38-410B-80A4-C04A922A1D63}</ProjectGuid>
+    <ProjectGuid>{B6919608-568E-40AA-8666-169CC5C2D0C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ConfigureAwaitEnforcer.Vsix</RootNamespace>
@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConfigureAwaitEnforcer\ConfigureAwaitEnforcer.csproj">
-      <Project>{EF3D725A-3C16-4A29-A136-340C1A456627}</Project>
+      <Project>{B1A2089A-4401-41DA-8B8E-00D40E502212}</Project>
       <Name>ConfigureAwaitEnforcer</Name>
     </ProjectReference>
   </ItemGroup>

@@ -8,24 +8,24 @@ using ConfigureAwaitEnforcer;
 
 namespace ConfigureAwaitEnforcer.Test
 {
-  [TestClass]
-  public class UnitTest : CodeFixVerifier
-  {
-
-    //No diagnostics expected to show up
-    [TestMethod]
-    public void TestMethod1()
+    [TestClass]
+    public class UnitTest : CodeFixVerifier
     {
-      var test = @"";
 
-      VerifyCSharpDiagnostic(test);
-    }
+        //No diagnostics expected to show up
+        [TestMethod]
+        public void TestMethod1()
+        {
+            var test = @"";
 
-    //Diagnostic and CodeFix both triggered and checked for
-    [TestMethod]
-    public void TestMethod2()
-    {
-      var test = @"
+            VerifyCSharpDiagnostic(test);
+        }
+
+        //Diagnostic and CodeFix both triggered and checked for
+        [TestMethod]
+        public void TestMethod2()
+        {
+            var test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -39,20 +39,20 @@ namespace ConfigureAwaitEnforcer.Test
         {   
         }
     }";
-      var expected = new DiagnosticResult
-      {
-        Id = "ConfigureAwaitEnforcer",
-        Message = String.Format("Type name '{0}' contains lowercase letters", "TypeName"),
-        Severity = DiagnosticSeverity.Warning,
-        Locations =
-              new[] {
+            var expected = new DiagnosticResult
+            {
+                Id = "ConfigureAwaitEnforcer",
+                Message = String.Format("Type name '{0}' contains lowercase letters", "TypeName"),
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    new[] {
                             new DiagnosticResultLocation("Test0.cs", 11, 15)
-                  }
-      };
+                        }
+            };
 
-      VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic(test, expected);
 
-      var fixtest = @"
+            var fixtest = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -66,17 +66,17 @@ namespace ConfigureAwaitEnforcer.Test
         {   
         }
     }";
-      VerifyCSharpFix(test, fixtest);
-    }
+            VerifyCSharpFix(test, fixtest);
+        }
 
-    protected override CodeFixProvider GetCSharpCodeFixProvider()
-    {
-      return new ConfigureAwaitEnforcerCodeFixProvider();
-    }
+        protected override CodeFixProvider GetCSharpCodeFixProvider()
+        {
+            return new ConfigureAwaitEnforcerCodeFixProvider();
+        }
 
-    protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
-    {
-      return new ConfigureAwaitEnforcerAnalyzer();
+        protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
+        {
+            return new ConfigureAwaitEnforcerAnalyzer();
+        }
     }
-  }
 }

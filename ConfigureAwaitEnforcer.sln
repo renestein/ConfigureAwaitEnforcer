@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigureAwaitEnforcer", "ConfigureAwaitEnforcer\ConfigureAwaitEnforcer\ConfigureAwaitEnforcer.csproj", "{EF3D725A-3C16-4A29-A136-340C1A456627}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigureAwaitEnforcer", "ConfigureAwaitEnforcer\ConfigureAwaitEnforcer\ConfigureAwaitEnforcer.csproj", "{B1A2089A-4401-41DA-8B8E-00D40E502212}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigureAwaitEnforcer.Test", "ConfigureAwaitEnforcer\ConfigureAwaitEnforcer.Test\ConfigureAwaitEnforcer.Test.csproj", "{8D6A6D3F-884A-40B8-A927-7B05021070E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigureAwaitEnforcer.Test", "ConfigureAwaitEnforcer\ConfigureAwaitEnforcer.Test\ConfigureAwaitEnforcer.Test.csproj", "{BC18B6C1-A77E-414E-BF90-6735DE426CF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigureAwaitEnforcer.Vsix", "ConfigureAwaitEnforcer\ConfigureAwaitEnforcer.Vsix\ConfigureAwaitEnforcer.Vsix.csproj", "{5C586ECE-9D38-410B-80A4-C04A922A1D63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigureAwaitEnforcer.Vsix", "ConfigureAwaitEnforcer\ConfigureAwaitEnforcer.Vsix\ConfigureAwaitEnforcer.Vsix.csproj", "{B6919608-568E-40AA-8666-169CC5C2D0C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,23 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EF3D725A-3C16-4A29-A136-340C1A456627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF3D725A-3C16-4A29-A136-340C1A456627}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF3D725A-3C16-4A29-A136-340C1A456627}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF3D725A-3C16-4A29-A136-340C1A456627}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D6A6D3F-884A-40B8-A927-7B05021070E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D6A6D3F-884A-40B8-A927-7B05021070E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D6A6D3F-884A-40B8-A927-7B05021070E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D6A6D3F-884A-40B8-A927-7B05021070E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C586ECE-9D38-410B-80A4-C04A922A1D63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C586ECE-9D38-410B-80A4-C04A922A1D63}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C586ECE-9D38-410B-80A4-C04A922A1D63}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C586ECE-9D38-410B-80A4-C04A922A1D63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1A2089A-4401-41DA-8B8E-00D40E502212}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1A2089A-4401-41DA-8B8E-00D40E502212}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1A2089A-4401-41DA-8B8E-00D40E502212}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1A2089A-4401-41DA-8B8E-00D40E502212}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC18B6C1-A77E-414E-BF90-6735DE426CF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC18B6C1-A77E-414E-BF90-6735DE426CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC18B6C1-A77E-414E-BF90-6735DE426CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC18B6C1-A77E-414E-BF90-6735DE426CF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6919608-568E-40AA-8666-169CC5C2D0C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6919608-568E-40AA-8666-169CC5C2D0C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6919608-568E-40AA-8666-169CC5C2D0C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6919608-568E-40AA-8666-169CC5C2D0C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1B38039A-E276-464F-B967-178451B7EB03}
+		SolutionGuid = {9ED788E5-2C17-4F4C-A1B0-DF0866AAB6F5}
 	EndGlobalSection
 EndGlobal
