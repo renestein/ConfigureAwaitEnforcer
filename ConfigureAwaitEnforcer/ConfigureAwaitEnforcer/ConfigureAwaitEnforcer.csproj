@@ -16,7 +16,6 @@
     <RepositoryUrl>https://github.com/renestein/ConfigureAwaitEnforcer</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>Extension enforces the use of the ConfigureAwait(false) expression.
-
 Visual studio extension is available here: https://marketplace.visualstudio.com/items?itemName=Rene-Stein.ConfigureAwaitEnforcer</Description>
     <PackageReleaseNotes></PackageReleaseNotes>
     <Copyright>Copyright</Copyright>
