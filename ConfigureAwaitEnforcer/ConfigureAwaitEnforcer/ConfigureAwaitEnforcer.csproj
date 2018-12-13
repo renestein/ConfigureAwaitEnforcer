@@ -9,17 +9,20 @@
   <PropertyGroup>
     <PackageId>ConfigureAwaitEnforcer</PackageId>
     <PackageVersion>1.0.0.0</PackageVersion>
-    <Authors>rene</Authors>
-    <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
-    <PackageProjectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</PackageProjectUrl>
-    <PackageIconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</PackageIconUrl>
-    <RepositoryUrl>http://REPOSITORY_URL_HERE_OR_DELETE_THIS_LINE</RepositoryUrl>
+    <Authors>René Stein</Authors>
+    <PackageLicenseUrl>https://github.com/renestein/ConfigureAwaitEnforcer/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/renestein/ConfigureAwaitEnforcer</PackageProjectUrl>
+    <PackageIconUrl></PackageIconUrl>
+    <RepositoryUrl>https://github.com/renestein/ConfigureAwaitEnforcer</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>ConfigureAwaitEnforcer</Description>
-    <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
+    <Description>Extension enforces the use of the ConfigureAwait(false) expression.
+
+Visual studio extension is available here: https://marketplace.visualstudio.com/items?itemName=Rene-Stein.ConfigureAwaitEnforcer</Description>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <Copyright>Copyright</Copyright>
-    <PackageTags>ConfigureAwaitEnforcer, analyzers</PackageTags>
+    <PackageTags>Async, ConfigureAwaitEnforcer, Roslyn, Analyzers, Task, Tasks</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
+    <Company>René Stein</Company>
   </PropertyGroup>
 
   <ItemGroup>
