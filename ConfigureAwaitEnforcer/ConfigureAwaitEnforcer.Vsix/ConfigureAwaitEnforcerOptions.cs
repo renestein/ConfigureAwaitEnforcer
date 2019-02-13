@@ -1,44 +1,58 @@
 ﻿using System;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
+using static System.Environment;
 using Task = System.Threading.Tasks.Task;
 
 namespace ConfigureAwaitEnforcer.Vsix
 {
   public class ConfigureAwaitEnforcerProperties : DialogPage
   {
-    public const string DEFAULT_CATEGORY = "ConfigureAwaitEnforcer settings";
+    public const string DEFAULT_CATEGORY = "ConfigureAwaitEnforcer";
     public const string DEFAULT_SUBCATEGORY = "Basic settings";
 
-    [Category(DEFAULT_CATEGORY)]  
+    public const string CONFIG_NAME = nameof(ConfigureAwaitEnforcerProperties);
+    public const string EXTENSION_NAME = "RStein.ConfigureAwaitEnforcer";
+
+    private static readonly string CONFIG_FILE_DIRECTORY = Path.Combine(GetFolderPath(SpecialFolder.LocalApplicationData),
+      EXTENSION_NAME);
+
+    private static readonly string CONFIG_FILE_PATH = Path.Combine(CONFIG_FILE_DIRECTORY, CONFIG_NAME);
+
+    private const string DIAGNOSTICS_SEVERITY_KEY = "Diagnostics_Severity";
+
+    [Category(DEFAULT_CATEGORY)]
     [DisplayName("Diagnostics severity")]
-    [Description("Diagnostics severity for a missing 'ConfigureAwait' expression. Default is error.")]
-    public DiagnosticsSeverity DiagnosticsSeverity
+    [Description("Diagnostics severity for a missing 'ConfigureAwait' expression.")]
+    [DefaultValue(typeof(DiagnosticsSeverity), "Error")]
+    public DiagnosticsSeverity Severity
     {
       get;
       set;
     }
 
+    public override void SaveSettingsToStorage()
+    {
+      if (!Directory.Exists(CONFIG_FILE_PATH))
+      {
+        Directory.CreateDirectory(CONFIG_FILE_DIRECTORY);
+      }
+      File.WriteAllLines(CONFIG_FILE_PATH, new[]
+      {
+        $"{DIAGNOSTICS_SEVERITY_KEY}={Severity}"
+      }, Encoding.UTF8);
+      base.SaveSettingsToStorage();
+    }
   }
-  
-  public enum DiagnosticsSeverity
-  {
-    Default = 0,
-    Warning,
-    Error,
-    Information
-  }
+
+
   /// <summary>
   /// This is the class that implements the package exposed by this assembly.
   /// </summary>
@@ -66,7 +80,7 @@ namespace ConfigureAwaitEnforcer.Vsix
     /// <summary>
     /// ConfigureAwaitEnforcerOptions GUID string.
     /// </summary>
-    public const string PackageGuidString = "4c501a32-fa18-47af-a29e-15874c325ead";
+    public const string PackageGuidString = "3FFD6B48-F512-4B45-8BC6-69F3FE817A41";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConfigureAwaitEnforcerOptions"/> class.
@@ -93,7 +107,9 @@ namespace ConfigureAwaitEnforcer.Vsix
       // When initialized asynchronously, the current thread may be a background thread at this point.
       // Do any initialization that requires the UI thread after switching to the UI thread.
       await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-        }
+
+
+    }
 
     #endregion
   }

@@ -22,7 +22,13 @@ Visual studio extension is available here: https://marketplace.visualstudio.com/
     <PackageTags>Async, ConfigureAwaitEnforcer, Roslyn, Analyzers, Task, Tasks</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <Company>René Stein</Company>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>rene-extensions.snk.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DiagnosticsSeverity.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.1" PrivateAssets="all" />
