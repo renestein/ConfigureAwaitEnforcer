@@ -27,8 +27,8 @@ namespace ConfigureAwaitEnforcer
     private static string getConfigPath()
     {
       return Path.Combine(Environment.GetEnvironmentVariable("LOCALAPPDATA"),
-        EXTENSION_NAME,
-        CONFIG_NAME);
+                          EXTENSION_NAME,
+                          CONFIG_NAME);
     }
 
     private DiagnosticSeverity readSeverity()
