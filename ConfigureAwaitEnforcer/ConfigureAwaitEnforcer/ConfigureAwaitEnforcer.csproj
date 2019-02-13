@@ -15,15 +15,16 @@
     <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/renestein/ConfigureAwaitEnforcer</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>Extension enforces the use of the ConfigureAwait(false) expression.
+    <Description>Extension enforces the use of the ConfigureAwait expression.
 Visual studio extension is available here: https://marketplace.visualstudio.com/items?itemName=Rene-Stein.ConfigureAwaitEnforcer</Description>
     <PackageReleaseNotes></PackageReleaseNotes>
-    <Copyright>Copyright</Copyright>
+    <Copyright>Copyright René Stein 2019</Copyright>
     <PackageTags>Async, ConfigureAwaitEnforcer, Roslyn, Analyzers, Task, Tasks</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <Company>René Stein</Company>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>rene-extensions.snk.pfx</AssemblyOriginatorKeyFile>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -80,7 +80,7 @@ namespace ConfigureAwaitEnforcer.Vsix
     /// <summary>
     /// ConfigureAwaitEnforcerOptions GUID string.
     /// </summary>
-    public const string PackageGuidString = "3FFD6B48-F512-4B45-8BC6-69F3FE817A41";
+    public const string PackageGuidString = "71B98E75-A28C-4D1C-A164-57B5564324BE";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConfigureAwaitEnforcerOptions"/> class.
