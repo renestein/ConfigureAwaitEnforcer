@@ -6,34 +6,43 @@ using Microsoft.CodeAnalysis;
 
 namespace ConfigureAwaitEnforcer
 {
-
   public class ConfigureAwaitEnforcerOptions
   {
-    public static ConfigureAwaitEnforcerOptions Default = new ConfigureAwaitEnforcerOptions();
     public const string CONFIG_NAME = "ConfigureAwaitEnforcerProperties";
     public const string EXTENSION_NAME = "RStein.ConfigureAwaitEnforcer";
     private const string DIAGNOSTICS_SEVERITY_KEY = "Diagnostics_Severity";
     public const char KEY_VALUE_SEPARATOR = '=';
-
-    private static readonly string CONFIG_FILE_PATH = Path.Combine(Environment.GetEnvironmentVariable("LocalAppData"),
-      EXTENSION_NAME, CONFIG_NAME);
+    public static ConfigureAwaitEnforcerOptions Default = new ConfigureAwaitEnforcerOptions();
 
     private ConfigureAwaitEnforcerOptions()
     {
       Severity = readSeverity();
+    }
 
+    internal DiagnosticSeverity Severity
+    {
+      get;
+    }
+
+    private static string getConfigPath()
+    {
+      return Path.Combine(Environment.GetEnvironmentVariable("LOCALAPPDATA"),
+        EXTENSION_NAME,
+        CONFIG_NAME);
     }
 
     private DiagnosticSeverity readSeverity()
     {
       try
       {
-        if (!File.Exists(CONFIG_FILE_PATH))
+        var configFilePath = getConfigPath();
+
+        if (!File.Exists(configFilePath))
         {
           return DiagnosticSeverity.Error;
         }
 
-        var lines = File.ReadAllLines(CONFIG_FILE_PATH, Encoding.UTF8);
+        var lines = File.ReadAllLines(configFilePath, Encoding.UTF8);
         if (lines.Length == 0 || !lines[0].Trim().StartsWith(DIAGNOSTICS_SEVERITY_KEY))
         {
           return DiagnosticSeverity.Error;
@@ -44,21 +53,14 @@ namespace ConfigureAwaitEnforcer
         if (!Enum.IsDefined(typeof(DiagnosticSeverity), enumValue))
         {
           return DiagnosticSeverity.Error;
-
         }
 
-        return (DiagnosticSeverity)enumValue;
+        return (DiagnosticSeverity) enumValue;
       }
       catch (Exception)
       {
         return DiagnosticSeverity.Error;
       }
     }
-
-    internal DiagnosticSeverity Severity
-    {
-      get;
-    }
-
   }
 }
