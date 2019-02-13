@@ -41,8 +41,7 @@ namespace ConfigureAwaitEnforcer
                             .First();
 
       // Register a code action that will invoke the fix.
-      context.RegisterCodeFix(CodeAction.Create(
-                                                AWAIT_FALSE_TITLE,
+      context.RegisterCodeFix(CodeAction.Create(AWAIT_FALSE_TITLE,
                                                 c => addConfigureAwaitFalseNode(context.Document,
                                                                                 declaration,
                                                                                 c,
@@ -50,8 +49,7 @@ namespace ConfigureAwaitEnforcer
                                                 AWAIT_FALSE_TITLE),
                               diagnostic);
 
-      context.RegisterCodeFix(CodeAction.Create(
-                                                AWAIT_TRUE_TITLE,
+      context.RegisterCodeFix(CodeAction.Create(AWAIT_TRUE_TITLE,
                                                 c => addConfigureAwaitFalseNode(context.Document,
                                                                                 declaration,
                                                                                 c,
