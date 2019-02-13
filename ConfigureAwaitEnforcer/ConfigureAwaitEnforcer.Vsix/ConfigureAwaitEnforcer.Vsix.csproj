@@ -31,7 +31,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ConfigureAwaitEnforcer.Vsix</RootNamespace>
-    <AssemblyName>ConfigureAwaitEnforcer</AssemblyName>
+    <AssemblyName>ConfigureAwaitEnforcerVsix</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
