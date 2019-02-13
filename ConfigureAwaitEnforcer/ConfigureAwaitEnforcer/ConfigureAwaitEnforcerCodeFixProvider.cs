@@ -15,7 +15,8 @@ namespace ConfigureAwaitEnforcer
   [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ConfigureAwaitEnforcerCodeFixProvider)), Shared]
   public class ConfigureAwaitEnforcerCodeFixProvider : CodeFixProvider
   {
-    private const string title = "Add ConfigureAwait(false)";
+    private const string AWAIT_FALSE_TITLE = "Add ConfigureAwait(false)";
+    private const string AWAIT_TRUE_TITLE = "Add ConfigureAwait(true)";
 
     public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(ConfigureAwaitEnforcerAnalyzer.DiagnosticId);
 
@@ -39,19 +40,29 @@ namespace ConfigureAwaitEnforcer
       // Register a code action that will invoke the fix.
       context.RegisterCodeFix(
           CodeAction.Create(
-              title: title,
+              title: AWAIT_FALSE_TITLE,
               createChangedSolution: c => addConfigureAwaitFalseNode(context.Document,
                                                                     declaration,
                                                                      c,
-                                                                     context),
-              equivalenceKey: title),
+                                                                    false),
+              equivalenceKey: AWAIT_FALSE_TITLE),
           diagnostic);
+
+      context.RegisterCodeFix(
+        CodeAction.Create(
+          title: AWAIT_TRUE_TITLE,
+          createChangedSolution: c => addConfigureAwaitFalseNode(context.Document,
+            declaration,
+            c,
+            true),
+          equivalenceKey: AWAIT_TRUE_TITLE),
+        diagnostic);
     }
 
     private async Task<Solution> addConfigureAwaitFalseNode(Document document,
                                                             AwaitExpressionSyntax awaitExpression,
                                                             CancellationToken cancellationToken,
-                                                            CodeFixContext context)
+                                                            bool configureAwaitValue)
     {
       var configureAwaitId = SyntaxFactory.IdentifierName(ConfigureAwaitEnforcerAnalyzer.CONFIGUREAWAIT_METHOD_NAME);
       var dot = SyntaxFactory.Token(SyntaxKind.DotToken);
@@ -60,7 +71,10 @@ namespace ConfigureAwaitEnforcer
         SyntaxKind.SimpleMemberAccessExpression,
         awaitExpression.Expression, dot, configureAwaitId);
 
-      var awaitFalseArg = SyntaxFactory.Argument(SyntaxFactory.LiteralExpression(SyntaxKind.FalseLiteralExpression));
+      var awaitFalseArg = SyntaxFactory.Argument(SyntaxFactory.LiteralExpression(configureAwaitValue
+                                                                              ? SyntaxKind.TrueLiteralExpression
+                                                                              : SyntaxKind.FalseLiteralExpression));
+
       var configureAwaitMethodArgs = SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(new[] { awaitFalseArg }));
       var invokeConfigureAwait = SyntaxFactory.InvocationExpression(callMethodConfigureAwait,
         configureAwaitMethodArgs);
