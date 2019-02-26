@@ -42,26 +42,26 @@ namespace ConfigureAwaitEnforcer
 
       // Register a code action that will invoke the fix.
       context.RegisterCodeFix(CodeAction.Create(AWAIT_FALSE_TITLE,
-                                                c => addConfigureAwaitFalseNode(context.Document,
-                                                                                declaration,
-                                                                                c,
-                                                                                false),
+                                                c => addConfigureAwaitNode(context.Document,
+                                                                           declaration,
+                                                                           c,
+                                                                           false),
                                                 AWAIT_FALSE_TITLE),
                               diagnostic);
 
       context.RegisterCodeFix(CodeAction.Create(AWAIT_TRUE_TITLE,
-                                                c => addConfigureAwaitFalseNode(context.Document,
-                                                                                declaration,
-                                                                                c,
-                                                                                true),
+                                                c => addConfigureAwaitNode(context.Document,
+                                                                           declaration,
+                                                                           c,
+                                                                           true),
                                                 AWAIT_TRUE_TITLE),
                               diagnostic);
     }
 
-    private async Task<Solution> addConfigureAwaitFalseNode(Document document,
-                                                            AwaitExpressionSyntax awaitExpression,
-                                                            CancellationToken cancellationToken,
-                                                            bool configureAwaitValue)
+    private async Task<Solution> addConfigureAwaitNode(Document document,
+                                                       AwaitExpressionSyntax awaitExpression,
+                                                       CancellationToken cancellationToken,
+                                                       bool configureAwaitValue)
     {
       var configureAwaitId = SyntaxFactory.IdentifierName(ConfigureAwaitEnforcerAnalyzer.CONFIGUREAWAIT_METHOD_NAME);
       var dot = SyntaxFactory.Token(SyntaxKind.DotToken);
@@ -70,12 +70,12 @@ namespace ConfigureAwaitEnforcer
                                                                           awaitExpression.Expression,
                                                                           dot, configureAwaitId);
 
-      var awaitFalseArg = SyntaxFactory.Argument(SyntaxFactory.LiteralExpression(configureAwaitValue
+      var awaitArg = SyntaxFactory.Argument(SyntaxFactory.LiteralExpression(configureAwaitValue
                                                                                    ? SyntaxKind.TrueLiteralExpression
                                                                                    : SyntaxKind
                                                                                      .FalseLiteralExpression));
 
-      var configureAwaitMethodArgs = SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(new[] {awaitFalseArg}));
+      var configureAwaitMethodArgs = SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(new[] {awaitArg}));
       var invokeConfigureAwait = SyntaxFactory.InvocationExpression(callMethodConfigureAwait,
                                                                     configureAwaitMethodArgs);
 
