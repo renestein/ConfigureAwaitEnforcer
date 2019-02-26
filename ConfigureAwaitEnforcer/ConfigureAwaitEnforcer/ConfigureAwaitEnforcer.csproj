@@ -8,9 +8,8 @@
 
   <PropertyGroup>
     <PackageId>ConfigureAwaitEnforcer</PackageId>
-    <PackageVersion>1.1.0</PackageVersion>
+    <PackageVersion>1.1.1</PackageVersion>
     <Authors>René Stein</Authors>
-    <PackageLicenseUrl>https://github.com/renestein/ConfigureAwaitEnforcer/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/renestein/ConfigureAwaitEnforcer</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/renestein/ConfigureAwaitEnforcer</RepositoryUrl>
@@ -24,7 +23,8 @@ Visual studio extension is available here: https://marketplace.visualstudio.com/
     <Company>René Stein</Company>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>rene-extensions.snk.pfx</AssemblyOriginatorKeyFile>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
