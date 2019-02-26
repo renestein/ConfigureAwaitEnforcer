@@ -31,11 +31,16 @@ namespace ConfigureAwaitEnforcer.Vsix
     [Category(DEFAULT_CATEGORY)]
     [DisplayName("Diagnostics severity")]
     [Description("Diagnostics severity for a missing 'ConfigureAwait' expression.")]
-    [DefaultValue(typeof(DiagnosticsSeverity), "Error")]
-    public DiagnosticsSeverity Severity
+    [DefaultValue(typeof(DiagnosticSeverity), "Error")]
+    public DiagnosticSeverity Severity
     {
       get;
       set;
+    }
+
+    public override void LoadSettingsFromStorage()
+    {
+      Severity = Config.Default.Severity;
     }
 
     public override void SaveSettingsToStorage()
@@ -48,7 +53,8 @@ namespace ConfigureAwaitEnforcer.Vsix
       {
         $"{DIAGNOSTICS_SEVERITY_KEY}={Severity}"
       }, Encoding.UTF8);
-      base.SaveSettingsToStorage();
+
+      Config.Default.Reload();
     }
   }
 

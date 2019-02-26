@@ -2,26 +2,34 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+#if !VSIX
 using Microsoft.CodeAnalysis;
+#endif
 
 namespace ConfigureAwaitEnforcer
 {
-  public class ConfigureAwaitEnforcerOptions
+  internal class Config
   {
     public const string CONFIG_NAME = "ConfigureAwaitEnforcerProperties";
     public const string EXTENSION_NAME = "RStein.ConfigureAwaitEnforcer";
     private const string DIAGNOSTICS_SEVERITY_KEY = "Diagnostics_Severity";
     public const char KEY_VALUE_SEPARATOR = '=';
-    public static ConfigureAwaitEnforcerOptions Default = new ConfigureAwaitEnforcerOptions();
+    public static Config Default = new Config();
 
-    private ConfigureAwaitEnforcerOptions()
+    private Config()
     {
       Severity = readSeverity();
     }
 
-    internal DiagnosticSeverity Severity
+    public DiagnosticSeverity Severity
     {
       get;
+      set;
+    }
+
+    public void Reload()
+    {
+      Severity= readSeverity();
     }
 
     private static string getConfigPath()
@@ -35,7 +43,7 @@ namespace ConfigureAwaitEnforcer
     {
       try
       {
-        var configFilePath = getConfigPath();
+       var configFilePath = getConfigPath();
 
         if (!File.Exists(configFilePath))
         {

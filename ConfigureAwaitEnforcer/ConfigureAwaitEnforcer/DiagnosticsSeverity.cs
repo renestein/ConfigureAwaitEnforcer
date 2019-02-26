@@ -2,7 +2,7 @@
 namespace ConfigureAwaitEnforcer
 {
 
-   public enum DiagnosticsSeverity
+   public enum DiagnosticSeverity
   {
     Hidden = 0,
     Info,

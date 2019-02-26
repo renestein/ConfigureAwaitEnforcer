@@ -55,7 +55,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;VSIX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -71,6 +71,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ConfigureAwaitEnforcer\Config.cs">
+      <Link>Config.cs</Link>
+    </Compile>
     <Compile Include="..\ConfigureAwaitEnforcer\DiagnosticsSeverity.cs">
       <Link>DiagnosticsSeverity.cs</Link>
     </Compile>

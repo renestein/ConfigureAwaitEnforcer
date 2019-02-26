@@ -34,7 +34,7 @@ namespace ConfigureAwaitEnforcer
       Title,
       MessageFormat,
       Category,
-      DiagnosticSeverity.Error,
+      Config.Default.Severity,
       true,
       Description);
 
