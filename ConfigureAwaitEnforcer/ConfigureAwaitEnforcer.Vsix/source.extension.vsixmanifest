@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="ConfigureAwaitEnforcer.3FFD6B48-F512-4B45-8BC6-69F3FE817A41" Version="1.1.1.0" Language="en-US" Publisher="René Stein" />
+    <Identity Id="ConfigureAwaitEnforcer.3FFD6B48-F512-4B45-8BC6-69F3FE817A41" Version="1.1.2.0" Language="en-US" Publisher="René Stein" />
     <DisplayName>ConfigureAwaitEnforcer</DisplayName>
     <Description xml:space="preserve">Extension enforces the use of the ConfigureAwait expression.</Description>
   </Metadata>
