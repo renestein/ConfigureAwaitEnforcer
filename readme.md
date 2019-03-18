@@ -8,7 +8,7 @@ Nuget:  _Install-Package ConfigureAwaitEnforcer_
 
 **Version 1.1.2.0**
 - Improved compatibility with VS 2019.
-- Deleted Microsoft.VisualStudio.MPF.15.0 dependency
+- Deleted Microsoft.VisualStudio.MPF.15.0 dependency.
 
 **Version 1.1.1.0**
 - Improved compatibility with VS 2019.
