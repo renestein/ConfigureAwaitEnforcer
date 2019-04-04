@@ -7,7 +7,7 @@ Nuget:  _Install-Package ConfigureAwaitEnforcer_
 (https://www.nuget.org/packages/ConfigureAwaitEnforcer/)
 
 **Version 1.1.3.0**
-Support for the VS 2019 RTM
+- Support for the VS 2019 RTM
 
 **Version 1.1.2.0**
 - Improved compatibility with VS 2019.
