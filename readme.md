@@ -6,6 +6,28 @@ Visual studio extension is available here: https://marketplace.visualstudio.com/
 Nuget:  _Install-Package ConfigureAwaitEnforcer_
 (https://www.nuget.org/packages/ConfigureAwaitEnforcer/)
 
+**Version 1.2.0**
+
+- Better support for the nested await expressions.
+
+e. g.
+```
+await tf.StartNew(async () => await Task.FromResult(5).ConfigureAwait(false)).ConfigureAwait(false);
+```
+```
+await tf.StartNew(async () => await tf.StartNew(async () => await Task.FromResult(new Object()).ConfigureAwait(false)).ConfigureAwait(false)).ConfigureAwait(false);
+```
+- Support for expressions that returns ValueTask<T>. Support for async LINQ.
+
+e.g.
+```
+ var parseResult = await enumerateLines(reader) 
+                              .Where(line => !String.IsNullOrEmpty(line) || line[0].Equals(COMMENT))
+                              .AggregateAsync((ParserState.WaitingForExpressionFormat, new Sat(SimpleDPLLStrategy.Solve)),
+                                              parseLine).ConfigureAwait(false);
+```
+
+
 **Version 1.1.3.0**
 - Support for the VS 2019 RTM
 
