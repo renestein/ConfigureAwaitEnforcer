@@ -55,7 +55,7 @@ namespace ConfigureAwaitEnforcer
         .DescendantTokens()
         .Any(token => token.Value != null &&
                       token.Value.ToString().Equals(CONFIGUREAWAIT_METHOD_NAME,
-                        StringComparison.Ordinal));
+                                                    StringComparison.Ordinal) && token.Parent.Equals(currentAwait));
 
       if (hasConfigureAwait)
       {
