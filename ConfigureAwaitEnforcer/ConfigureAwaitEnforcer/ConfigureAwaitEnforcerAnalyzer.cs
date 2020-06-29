@@ -30,7 +30,9 @@ namespace ConfigureAwaitEnforcer
       new LocalizableResourceString(nameof(Resources.AnalyzerDescription), Resources.ResourceManager,
         typeof(Resources));
 
+#pragma warning disable RS2000 // Add analyzer diagnostic IDs to analyzer release.
     private static readonly DiagnosticDescriptor RULE = new DiagnosticDescriptor(DiagnosticId,
+#pragma warning restore RS2000 // Add analyzer diagnostic IDs to analyzer release.
       Title,
       MessageFormat,
       Category,
@@ -42,6 +44,8 @@ namespace ConfigureAwaitEnforcer
 
     public override void Initialize(AnalysisContext context)
     {
+      context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
+      context.EnableConcurrentExecution();
       context.RegisterSyntaxNodeAction(AnalyzeAwait,
         SyntaxKind.AwaitExpression,
                       SyntaxKind.ForEachStatement,
@@ -109,17 +113,19 @@ namespace ConfigureAwaitEnforcer
     {
       var localDeclarationStatementSyntax = (LocalDeclarationStatementSyntax)context.Node;
       if (localDeclarationStatementSyntax.AwaitKeyword.FullSpan.IsEmpty ||
-          localDeclarationStatementSyntax.UsingKeyword.FullSpan.IsEmpty)
+          localDeclarationStatementSyntax.UsingKeyword.FullSpan.IsEmpty ||
+          (!localDeclarationStatementSyntax.Declaration.Variables.Any()))
       {
         return;
       }
 
 
       var hasConfigureAwait = localDeclarationStatementSyntax
+                              .Declaration
                               .DescendantTokens()
                               .Any(token => token.Value != null &&
                                             token.Value.ToString().Equals(CONFIGUREAWAIT_METHOD_NAME,
-                                                                          StringComparison.Ordinal) && token.Parent.Equals(localDeclarationStatementSyntax));
+                                                                          StringComparison.Ordinal));
       if (hasConfigureAwait)
       {
         return;
@@ -135,17 +141,20 @@ namespace ConfigureAwaitEnforcer
       var usingStatementNode = (UsingStatementSyntax)context.Node;
       
       if (usingStatementNode.AwaitKeyword.FullSpan.IsEmpty ||
-          usingStatementNode.UsingKeyword.FullSpan.IsEmpty)
+          usingStatementNode.UsingKeyword.FullSpan.IsEmpty ||
+          usingStatementNode.Declaration == null ||
+          !usingStatementNode.Declaration.Variables.Any())
       {
         return;
       }
 
 
       var hasConfigureAwait = usingStatementNode
+                              .Declaration
                               .DescendantTokens()
                               .Any(token => token.Value != null &&
                                             token.Value.ToString().Equals(CONFIGUREAWAIT_METHOD_NAME,
-                                                                          StringComparison.Ordinal) && token.Parent.Equals(usingStatementNode));
+                                                                          StringComparison.Ordinal));
       if (hasConfigureAwait)
       {
         return;

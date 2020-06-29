@@ -45,7 +45,11 @@ namespace ConfigureAwaitEnforcer
                                                 .FirstOrDefault() ??
                                root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf()
                                    .OfType<UsingStatementSyntax>()
-                                   .First();
+                                   .FirstOrDefault()?.Declaration.Variables.First() ??
+                               root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf()
+                                   .OfType<LocalDeclarationStatementSyntax>()
+                                   .First()
+                                   .Declaration.Variables.First();
 
 
       // Register a code action that will invoke the fix.
@@ -71,8 +75,11 @@ namespace ConfigureAwaitEnforcer
                                                        CancellationToken cancellationToken,
                                                        bool configureAwaitValue)
     {
-
-
+      if (awaitSyntaxNode is VariableDeclaratorSyntax usingVariable)
+      {
+        return await addConfigureAwaitForUsingInitializer(document, cancellationToken, usingVariable, configureAwaitValue)
+                    .ConfigureAwait(false);
+      }
       var awaitNode = awaitSyntaxNode as AwaitExpressionSyntax;
       var forEachNode = awaitSyntaxNode as ForEachStatementSyntax;
       var configureAwaitId = SyntaxFactory.IdentifierName(ConfigureAwaitEnforcerAnalyzer.CONFIGUREAWAIT_METHOD_NAME);
@@ -89,8 +96,7 @@ namespace ConfigureAwaitEnforcer
 
       var awaitArg = SyntaxFactory.Argument(SyntaxFactory.LiteralExpression(configureAwaitValue
                                                                               ? SyntaxKind.TrueLiteralExpression
-                                                                              : SyntaxKind
-                                                                                .FalseLiteralExpression));
+                                                                              : SyntaxKind.FalseLiteralExpression));
 
       var configureAwaitMethodArgs = SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(new[] {awaitArg}));
       var invokeConfigureAwait = SyntaxFactory.InvocationExpression(callMethodConfigureAwait,
@@ -101,11 +107,8 @@ namespace ConfigureAwaitEnforcer
                                                     ? (SyntaxNode)awaitNode.WithExpression(invokeConfigureAwait)
                                                     : forEachNode.WithExpression(invokeConfigureAwait)                                          ;
 
-        var formattedAwaitWithConfigureAwaitCall =
-          awaitWithConfigureAwaitCall.WithAdditionalAnnotations(Formatter.Annotation);
-        var currentDocumentRoot = await document
-                                        .GetSyntaxRootAsync(cancellationToken)
-                                        .ConfigureAwait(false);
+        var formattedAwaitWithConfigureAwaitCall = awaitWithConfigureAwaitCall.WithAdditionalAnnotations(Formatter.Annotation);
+        var currentDocumentRoot = await getDocumentRoot(document, cancellationToken).ConfigureAwait(false);
 
 
         return document.WithSyntaxRoot(currentDocumentRoot.ReplaceNode(awaitSyntaxNode,
@@ -113,5 +116,34 @@ namespace ConfigureAwaitEnforcer
                        .Project
                        .Solution;
       }
+
+    private static async Task<SyntaxNode> getDocumentRoot(Document document,
+                                                          CancellationToken cancellationToken)
+    {
+      var currentDocumentRoot = await document
+                                      .GetSyntaxRootAsync(cancellationToken)
+                                      .ConfigureAwait(false);
+      return currentDocumentRoot;
     }
+
+    private async Task<Solution> addConfigureAwaitForUsingInitializer(Document document,
+                                                                 CancellationToken cancellationToken,
+                                                                 VariableDeclaratorSyntax usingVariable,
+                                                                 bool configureAwaitValue)
+    {
+      var initializer = usingVariable.Initializer;
+
+      var newInitializer = SyntaxFactory.EqualsValueClause(
+                                                 SyntaxFactory.ParseExpression($"{initializer.Value}.{ConfigureAwaitEnforcerAnalyzer.CONFIGUREAWAIT_METHOD_NAME}({configureAwaitValue.ToString().ToLowerInvariant()})")
+                                                              .WithAdditionalAnnotations(Formatter.Annotation));
+
+      var currentDocumentRoot = await getDocumentRoot(document, cancellationToken).ConfigureAwait(false);
+      
+      return document.WithSyntaxRoot(currentDocumentRoot.ReplaceNode(initializer,
+                                                                     newInitializer))
+                     .Project
+                     .Solution;
+
+    }
+  }
   }
