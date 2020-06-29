@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigureAwaitEnforcer", "ConfigureAwaitEnforcer\ConfigureAwaitEnforcer\ConfigureAwaitEnforcer.csproj", "{B1A2089A-4401-41DA-8B8E-00D40E502212}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigureAwaitEnforcer.Test", "ConfigureAwaitEnforcer\ConfigureAwaitEnforcer.Test\ConfigureAwaitEnforcer.Test.csproj", "{BC18B6C1-A77E-414E-BF90-6735DE426CF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigureAwaitEnforcer", "ConfigureAwaitEnforcer\ConfigureAwaitEnforcer\ConfigureAwaitEnforcer.csproj", "{B1A2089A-4401-41DA-8B8E-00D40E502212}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigureAwaitEnforcer.Vsix", "ConfigureAwaitEnforcer\ConfigureAwaitEnforcer.Vsix\ConfigureAwaitEnforcer.Vsix.csproj", "{B6919608-568E-40AA-8666-169CC5C2D0C3}"
 EndProject
@@ -19,10 +17,6 @@ Global
 		{B1A2089A-4401-41DA-8B8E-00D40E502212}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1A2089A-4401-41DA-8B8E-00D40E502212}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1A2089A-4401-41DA-8B8E-00D40E502212}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC18B6C1-A77E-414E-BF90-6735DE426CF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC18B6C1-A77E-414E-BF90-6735DE426CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC18B6C1-A77E-414E-BF90-6735DE426CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC18B6C1-A77E-414E-BF90-6735DE426CF3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B6919608-568E-40AA-8666-169CC5C2D0C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B6919608-568E-40AA-8666-169CC5C2D0C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6919608-568E-40AA-8666-169CC5C2D0C3}.Release|Any CPU.ActiveCfg = Release|Any CPU

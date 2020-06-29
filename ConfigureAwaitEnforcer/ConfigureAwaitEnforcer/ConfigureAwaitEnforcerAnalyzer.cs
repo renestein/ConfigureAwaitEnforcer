@@ -43,19 +43,52 @@ namespace ConfigureAwaitEnforcer
     public override void Initialize(AnalysisContext context)
     {
       context.RegisterSyntaxNodeAction(AnalyzeAwait,
-        SyntaxKind.AwaitExpression);
+        SyntaxKind.AwaitExpression,
+                      SyntaxKind.ForEachStatement,
+                      SyntaxKind.UsingStatement,
+                      SyntaxKind.LocalDeclarationStatement);
     }
 
     private static void AnalyzeAwait(SyntaxNodeAnalysisContext context)
     {
-      var currentAwait = (AwaitExpressionSyntax) context.Node;
+      switch (context.Node)
+      {
+        case AwaitExpressionSyntax _:
+          {
+            analyzeAwaitExpression(context);
+            break;
+          }
+        case ForEachStatementSyntax _:
+          {
+            analyzeForEachAwait(context);
+            break;
+          }
+        case LocalDeclarationStatementSyntax _:
+          {
+            analyzeLocalDeclarationStatementAwait(context);
+            break;
+          }
+        case UsingStatementSyntax _:
+          {
+            analyzeUsingAwait(context);
+            break;
+          }
+      }
+
+    }
+
+    private static void analyzeAwaitExpression(SyntaxNodeAnalysisContext context)
+    {
+      var currentAwait = (AwaitExpressionSyntax)context.Node;
+
       var semanticModel = context.SemanticModel;
 
       var hasConfigureAwait = currentAwait
-        .DescendantTokens()
-        .Any(token => token.Value != null &&
-                      token.Value.ToString().Equals(CONFIGUREAWAIT_METHOD_NAME,
-                                                    StringComparison.Ordinal) && token.Parent.Equals(currentAwait));
+                              .DescendantTokens()
+                              .Any(token => token.Value != null &&
+                                            token.Value.ToString().Equals(CONFIGUREAWAIT_METHOD_NAME,
+                                                                          StringComparison.Ordinal) &&
+                                            token.Parent.Equals(currentAwait));
 
       if (hasConfigureAwait)
       {
@@ -72,9 +105,87 @@ namespace ConfigureAwaitEnforcer
       }
     }
 
+    private static void analyzeLocalDeclarationStatementAwait(SyntaxNodeAnalysisContext context)
+    {
+      var localDeclarationStatementSyntax = (LocalDeclarationStatementSyntax)context.Node;
+      if (localDeclarationStatementSyntax.AwaitKeyword.FullSpan.IsEmpty ||
+          localDeclarationStatementSyntax.UsingKeyword.FullSpan.IsEmpty)
+      {
+        return;
+      }
+
+
+      var hasConfigureAwait = localDeclarationStatementSyntax
+                              .DescendantTokens()
+                              .Any(token => token.Value != null &&
+                                            token.Value.ToString().Equals(CONFIGUREAWAIT_METHOD_NAME,
+                                                                          StringComparison.Ordinal) && token.Parent.Equals(localDeclarationStatementSyntax));
+      if (hasConfigureAwait)
+      {
+        return;
+      }
+
+      var diagnostic = Diagnostic.Create(RULE, localDeclarationStatementSyntax.GetLocation());
+      context.ReportDiagnostic(diagnostic);
+
+    }
+
+    private static void analyzeUsingAwait(SyntaxNodeAnalysisContext context)
+    {
+      var usingStatementNode = (UsingStatementSyntax)context.Node;
+      
+      if (usingStatementNode.AwaitKeyword.FullSpan.IsEmpty ||
+          usingStatementNode.UsingKeyword.FullSpan.IsEmpty)
+      {
+        return;
+      }
+
+
+      var hasConfigureAwait = usingStatementNode
+                              .DescendantTokens()
+                              .Any(token => token.Value != null &&
+                                            token.Value.ToString().Equals(CONFIGUREAWAIT_METHOD_NAME,
+                                                                          StringComparison.Ordinal) && token.Parent.Equals(usingStatementNode));
+      if (hasConfigureAwait)
+      {
+        return;
+      }
+
+      var diagnostic = Diagnostic.Create(RULE, usingStatementNode.GetLocation());
+      context.ReportDiagnostic(diagnostic);
+
+    }
+    private static void analyzeForEachAwait(SyntaxNodeAnalysisContext context)
+    {
+      var forEachStatementSyntax = (ForEachStatementSyntax)context.Node;
+      if (String.IsNullOrEmpty(forEachStatementSyntax.AwaitKeyword.FullSpan.ToString()))
+      {
+        return;
+      }
+
+
+      var hasConfigureAwait = forEachStatementSyntax
+                              .DescendantTokens()
+                              .Any(token => token.Value != null &&
+                                            token.Value.ToString().Equals(CONFIGUREAWAIT_METHOD_NAME,
+                                                                          StringComparison.Ordinal) && token.Parent.Equals(forEachStatementSyntax));
+      if (hasConfigureAwait)
+      {
+        return;
+      }
+
+      var semanticModel = context.SemanticModel;
+      var forEachInfo = semanticModel.GetForEachStatementInfo(forEachStatementSyntax);
+      if (forEachInfo.GetEnumeratorMethod?.ReturnType.Name.StartsWith("IAsyncEnumerator") ?? false)
+      {
+        var diagnostic = Diagnostic.Create(RULE, forEachStatementSyntax.GetLocation());
+        context.ReportDiagnostic(diagnostic);
+      }
+    }
+
     private static bool canUseConfigureAwaitMethod(AwaitExpressionInfo awaitExpression)
     {
-      var containingTypeName  = awaitExpression.GetResultMethod?.ContainingType?.Name;
+      var containingTypeName = awaitExpression.GetResultMethod?.ContainingType?.Name;
       return (containingTypeName?.StartsWith(nameof(TaskAwaiter),
                                              StringComparison.OrdinalIgnoreCase) ?? false) ||
              (containingTypeName?.StartsWith(nameof(ValueTaskAwaiter<Object>)) ?? false);

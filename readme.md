@@ -17,7 +17,7 @@ await tf.StartNew(async () => await Task.FromResult(5).ConfigureAwait(false)).Co
 ```
 await tf.StartNew(async () => await tf.StartNew(async () => await Task.FromResult(new Object()).ConfigureAwait(false)).ConfigureAwait(false)).ConfigureAwait(false);
 ```
-- Support for expressions that returns ValueTask<T>. Support for async LINQ.
+- Support for expressions that return ValueTask<T>. Support for async LINQ.
 
 e.g.
 ```
