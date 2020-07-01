@@ -6,7 +6,9 @@ Visual studio extension is available here: https://marketplace.visualstudio.com/
 Nuget:  _Install-Package ConfigureAwaitEnforcer_
 (https://www.nuget.org/packages/ConfigureAwaitEnforcer/)
 
-**Version 2.0.0.0 beta** (available only on github - https://github.com/renestein/ConfigureAwaitEnforcer/releases/tag/v.2.0-beta) - support for the 'await foreach' and 'await using' expressions in the Visual Studio 2019.
+**Version 2.0.0.0 beta** 
+- Available only on github - https://github.com/renestein/ConfigureAwaitEnforcer/releases/tag/v.2.0-beta. 
+- Preliminary support for the 'await foreach' and 'await using' expressions in the Visual Studio 2019.
 
 **Version 1.2.0**
 
