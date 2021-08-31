@@ -1,10 +1,16 @@
 **Extension enforces the use of the ConfigureAwait expression.**
 
-Visual studio extension is available here: https://marketplace.visualstudio.com/items?itemName=Rene-Stein.ConfigureAwaitEnforcer
+Extension for Visual studio (2019) is available here: https://marketplace.visualstudio.com/items?itemName=Rene-Stein.ConfigureAwaitEnforcer
 
+Extension for Visual studio 2022 (preview) is available here:  https://marketplace.visualstudio.com/items?itemName=Rene-Stein.ConfigureAwaitEnforcer2022
 
 Nuget:  _Install-Package ConfigureAwaitEnforcer_
 (https://www.nuget.org/packages/ConfigureAwaitEnforcer/)
+
+**Version 2.0.0**
+- **Added support for Visual Studio 2022  (Preview). (VS 2022 extension: - https://marketplace.visualstudio.com/items?itemName=Rene-Stein.ConfigureAwaitEnforcer2022)**
+- Added support for 'await foreach' statement.
+- Added support for 'await using' statement.
 
 **Version 1.2.0**
 
@@ -26,7 +32,6 @@ e.g.
                               .AggregateAsync((ParserState.WaitingForExpressionFormat, new Sat(SimpleDPLLStrategy.Solve)),
                                               parseLine).ConfigureAwait(false);
 ```
-
 
 **Version 1.1.3.0**
 - Support for the VS 2019 RTM
