@@ -86,6 +86,8 @@ namespace ConfigureAwaitEnforcer.Vsix
     /// <summary>
     /// ConfigureAwaitEnforcerOptions GUID string.
     /// </summary>
+
+
     public const string PackageGuidString = "71B98E75-A28C-4D1C-A164-57B5564324BE";
 
     /// <summary>
