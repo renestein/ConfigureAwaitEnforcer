@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup>
     <PackageId>ConfigureAwaitEnforcer</PackageId>
-    <PackageVersion>1.2.0</PackageVersion>
+    <PackageVersion>2.0.0</PackageVersion>
     <Authors>René Stein</Authors>
     <PackageProjectUrl>https://github.com/renestein/ConfigureAwaitEnforcer</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
@@ -17,13 +17,13 @@
     <Description>Extension enforces the use of the ConfigureAwait expression.
 Visual studio extension is available here: https://marketplace.visualstudio.com/items?itemName=Rene-Stein.ConfigureAwaitEnforcer</Description>
     <PackageReleaseNotes></PackageReleaseNotes>
-    <Copyright>Copyright René Stein 2019</Copyright>
+    <Copyright>Copyright René Stein 2019-2021</Copyright>
     <PackageTags>Async, ConfigureAwaitEnforcer, Roslyn, Analyzers, Task, Tasks</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <Company>René Stein</Company>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>rene-extensions.snk.pfx</AssemblyOriginatorKeyFile>
-    <Version>1.2.0</Version>
+    <Version>2.0.0</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
@@ -32,8 +32,8 @@ Visual studio extension is available here: https://marketplace.visualstudio.com/
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.1" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.9.0-beta4-63006-05" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.2" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.11.0" PrivateAssets="all" />
     <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
   </ItemGroup>
 

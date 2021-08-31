@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
@@ -16,8 +17,8 @@ namespace ConfigureAwaitEnforcer
   [Shared]
   public class ConfigureAwaitEnforcerCodeFixProvider : CodeFixProvider
   {
-    private const string AWAIT_FALSE_TITLE = "Add ConfigureAwait(false)";
-    private const string AWAIT_TRUE_TITLE = "Add ConfigureAwait(true)";
+    private const string AWAIT_FALSE_TITLE = "Add ConfigureAwait(false).";
+    private const string AWAIT_TRUE_TITLE = "Add ConfigureAwait(true).";
 
     public sealed override ImmutableArray<string> FixableDiagnosticIds =>
       ImmutableArray.Create(ConfigureAwaitEnforcerAnalyzer.DiagnosticId);
@@ -37,8 +38,27 @@ namespace ConfigureAwaitEnforcer
       var diagnostic = context.Diagnostics.First();
       var diagnosticSpan = diagnostic.Location.SourceSpan;
 
-      var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<AwaitExpressionSyntax>()
-                            .First();
+      SyntaxNode declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf()
+                                   .OfType<AwaitExpressionSyntax>()
+                                   .FirstOrDefault() ??
+
+                                   (SyntaxNode)root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf()
+                                                .OfType<ForEachStatementSyntax>()
+                                                .FirstOrDefault() ??
+
+                               root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf()
+                                   .OfType<UsingStatementSyntax>()
+                                   .FirstOrDefault()?.Declaration?.Variables.First() ??
+
+                               (SyntaxNode)root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf()
+                                   .OfType<UsingStatementSyntax>()
+                                   .FirstOrDefault()?.DescendantNodes().FirstOrDefault(node => node.IsKind(SyntaxKind.IdentifierName)) ??
+
+                               root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf()
+                                   .OfType<LocalDeclarationStatementSyntax>()
+                                   .First()
+                                   .Declaration.Variables.First();
+
 
       // Register a code action that will invoke the fix.
       context.RegisterCodeFix(CodeAction.Create(AWAIT_FALSE_TITLE,
@@ -59,38 +79,91 @@ namespace ConfigureAwaitEnforcer
     }
 
     private async Task<Solution> addConfigureAwaitNode(Document document,
-                                                       AwaitExpressionSyntax awaitExpression,
+                                                       SyntaxNode awaitSyntaxNode,
                                                        CancellationToken cancellationToken,
                                                        bool configureAwaitValue)
     {
+      if (awaitSyntaxNode is VariableDeclaratorSyntax usingVariable)
+      {
+        return await addConfigureAwaitForUsingInitializer(document, cancellationToken, usingVariable, configureAwaitValue)
+                    .ConfigureAwait(false);
+      }
+
+      var awaitNode = awaitSyntaxNode as AwaitExpressionSyntax;
+      var forEachNode = awaitSyntaxNode as ForEachStatementSyntax;
+      var identifierNameSyntax = awaitSyntaxNode as IdentifierNameSyntax;
       var configureAwaitId = SyntaxFactory.IdentifierName(ConfigureAwaitEnforcerAnalyzer.CONFIGUREAWAIT_METHOD_NAME);
       var dot = SyntaxFactory.Token(SyntaxKind.DotToken);
 
+
       var callMethodConfigureAwait = SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
-                                                                          awaitExpression.Expression,
-                                                                          dot, configureAwaitId);
+                                                                          awaitNode?.Expression ?? forEachNode?.Expression ?? identifierNameSyntax,
+                                                                          dot,
+                                                                          configureAwaitId);
 
       var awaitArg = SyntaxFactory.Argument(SyntaxFactory.LiteralExpression(configureAwaitValue
-                                                                                   ? SyntaxKind.TrueLiteralExpression
-                                                                                   : SyntaxKind
-                                                                                     .FalseLiteralExpression));
+                                                                              ? SyntaxKind.TrueLiteralExpression
+                                                                              : SyntaxKind.FalseLiteralExpression));
 
-      var configureAwaitMethodArgs = SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(new[] {awaitArg}));
+      var configureAwaitMethodArgs = SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(new[] { awaitArg }));
       var invokeConfigureAwait = SyntaxFactory.InvocationExpression(callMethodConfigureAwait,
                                                                     configureAwaitMethodArgs);
 
-      var awaitWithConfigureAwaitCall = awaitExpression.WithExpression(invokeConfigureAwait);
 
-      var formattedAwaitWithConfigureAwaitCall =
-        awaitWithConfigureAwaitCall.WithAdditionalAnnotations(Formatter.Annotation);
-      var currentDocumentRoot = await document
-                                      .GetSyntaxRootAsync(cancellationToken)
-                                      .ConfigureAwait(false);
 
-      return document.WithSyntaxRoot(currentDocumentRoot.ReplaceNode(awaitExpression,
+      SyntaxNode awaitWithConfigureAwaitCall;
+
+      if (awaitNode != null)
+      {
+        awaitWithConfigureAwaitCall = awaitNode.WithExpression(invokeConfigureAwait);
+      }
+      else if (forEachNode != null)
+      {
+        awaitWithConfigureAwaitCall = forEachNode.WithExpression(invokeConfigureAwait);
+      }
+      else
+      {
+        awaitWithConfigureAwaitCall = invokeConfigureAwait;
+      }
+
+      var formattedAwaitWithConfigureAwaitCall = awaitWithConfigureAwaitCall.WithAdditionalAnnotations(Formatter.Annotation);
+      var currentDocumentRoot = await getDocumentRoot(document, cancellationToken).ConfigureAwait(false);
+
+
+      return document.WithSyntaxRoot(currentDocumentRoot.ReplaceNode(awaitSyntaxNode,
                                                                      formattedAwaitWithConfigureAwaitCall))
                      .Project
                      .Solution;
+    }
+
+    private static async Task<SyntaxNode> getDocumentRoot(Document document,
+                                                          CancellationToken cancellationToken)
+    {
+      var currentDocumentRoot = await document
+                                      .GetSyntaxRootAsync(cancellationToken)
+                                      .ConfigureAwait(false);
+      return currentDocumentRoot;
+    }
+
+    private async Task<Solution> addConfigureAwaitForUsingInitializer(Document document,
+                                                                 CancellationToken cancellationToken,
+                                                                 VariableDeclaratorSyntax usingVariable,
+                                                                 bool configureAwaitValue)
+    {
+
+      var initializer = usingVariable.Initializer;
+
+      var newInitializer = SyntaxFactory.EqualsValueClause(
+                                                 SyntaxFactory.ParseExpression($"{initializer.Value}.{ConfigureAwaitEnforcerAnalyzer.CONFIGUREAWAIT_METHOD_NAME}({configureAwaitValue.ToString().ToLowerInvariant()})")
+                                                              .WithAdditionalAnnotations(Formatter.Annotation));
+
+      var currentDocumentRoot = await getDocumentRoot(document, cancellationToken).ConfigureAwait(false);
+
+      return document.WithSyntaxRoot(currentDocumentRoot.ReplaceNode(initializer,
+                                                                     newInitializer))
+                     .Project
+                     .Solution;
+
     }
   }
 }

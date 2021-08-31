@@ -6,10 +6,6 @@ Visual studio extension is available here: https://marketplace.visualstudio.com/
 Nuget:  _Install-Package ConfigureAwaitEnforcer_
 (https://www.nuget.org/packages/ConfigureAwaitEnforcer/)
 
-**Version 2.0.0.0 beta** 
-- Available only on github - https://github.com/renestein/ConfigureAwaitEnforcer/releases/tag/v.2.0-beta. 
-- Preliminary support for the 'await foreach' and 'await using' expressions in the Visual Studio 2019.
-
 **Version 1.2.0**
 
 - Better support for the nested await expressions.
@@ -21,7 +17,7 @@ await tf.StartNew(async () => await Task.FromResult(5).ConfigureAwait(false)).Co
 ```
 await tf.StartNew(async () => await tf.StartNew(async () => await Task.FromResult(new Object()).ConfigureAwait(false)).ConfigureAwait(false)).ConfigureAwait(false);
 ```
-- Support for expressions that returns ValueTask<T>. Support for async LINQ.
+- Support for expressions that return ValueTask<T>. Support for async LINQ.
 
 e.g.
 ```

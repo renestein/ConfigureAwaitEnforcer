@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
-  <Metadata>
-    <Identity Id="ConfigureAwaitEnforcer.3FFD6B48-F512-4B45-8BC6-69F3FE817A41" Version="1.2.0.0" Language="en-US" Publisher="René Stein" />
-    <DisplayName>ConfigureAwaitEnforcer</DisplayName>
-    <Description xml:space="preserve">Extension enforces the use of the ConfigureAwait expression.</Description>
-  </Metadata>
-  <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[15.0, 17.0)" />
-  </Installation>
-  <Dependencies>
-    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
-  </Dependencies>
-  <Assets>
-    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="ConfigureAwaitEnforcer" Path="|ConfigureAwaitEnforcer|" />
-    <Asset Type="Microsoft.VisualStudio.Analyzer" d:Source="Project" d:ProjectName="ConfigureAwaitEnforcer" Path="|ConfigureAwaitEnforcer|" />
-    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
-  </Assets>
-  <Prerequisites>
-    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,)" DisplayName="Visual Studio core editor" />
-    <Prerequisite Id="Microsoft.VisualStudio.Component.Roslyn.LanguageServices" Version="[15.0.25904.2,)" DisplayName="C# and Visual Basic" />
+    <Metadata>
+        <Identity Id="ConfigureAwaitEnforcer.3FFD6B48-F512-4B45-8BC6-69F3FE817A41" Version="2.0.0.0" Language="en-US" Publisher="René Stein" />
+        <DisplayName>ConfigureAwaitEnforcer</DisplayName>
+        <Description xml:space="preserve">Extension enforces the use of the ConfigureAwait expression.</Description>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[15.0, 17.0)" />
+    </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.7.2,)" />
+    </Dependencies>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="ConfigureAwaitEnforcer" Path="|ConfigureAwaitEnforcer|" />
+        <Asset Type="Microsoft.VisualStudio.Analyzer" d:Source="Project" d:ProjectName="ConfigureAwaitEnforcer" Path="|ConfigureAwaitEnforcer|" />
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    </Assets>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,)" DisplayName="Visual Studio core editor" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.Roslyn.LanguageServices" Version="[15.0.25904.2,)" DisplayName="C# and Visual Basic" />
 
-  </Prerequisites>
+    </Prerequisites>
 </PackageManifest>
