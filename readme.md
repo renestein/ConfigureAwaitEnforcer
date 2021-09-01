@@ -25,7 +25,7 @@ await tf.StartNew(async () => await tf.StartNew(async () => await Task.FromResul
 ```
 - Support for expressions that return ValueTask<T>. Support for async LINQ.
 
-e.g.
+e. g.
 ```
  var parseResult = await enumerateLines(reader) 
                               .Where(line => !String.IsNullOrEmpty(line) || line[0].Equals(COMMENT))
@@ -48,5 +48,5 @@ e.g.
 **Version 1.1.0.0**
 - Added ConfigureAwait(true) code fix.
 - Added Options page (menu Tools/Options/ConfigureAwaitEnforcer in Visual Studio).
-- Added 'Diagnostics severity' option  (values Error, Warning, Info, Hidden). Default value is Error. **You have to restart Visual Studio to see the change.**
+- Added 'Diagnostics severity' option  (values Error, Warning, Info, Hidden). The default value is Error. **You have to restart Visual Studio to see the change.**
 
